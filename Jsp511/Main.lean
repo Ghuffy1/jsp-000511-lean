@@ -71,4 +71,41 @@ theorem IsPlanar.isChoosable_three {G : SimpleGraph V} (hG : IsPlanar G) (hbip :
     planar_bipartite_listColorable G hG hbip s (fun v => (hscard v).ge)
   exact ⟨c, fun v => hsL v (hcs v), hcadj⟩
 
+/-! ### A stronger form: finite subgraphs planar -/
+
+/-- The edges of `G` inside a finite set `T` are at most as many as the edges of the induced
+subgraph on `T`. -/
+theorem edgesIn_card_le_induce (G : SimpleGraph V) (T : Finset V) :
+    (edgesIn G T).card ≤ (edgesIn (G.induce (T : Set V)) Finset.univ).card := by
+  classical
+  refine le_trans (Finset.card_le_card ?_)
+    (Finset.card_image_le (s := edgesIn (G.induce (T : Set V)) Finset.univ)
+      (f := Sym2.map Subtype.val))
+  intro e he
+  induction e using Sym2.ind with
+  | h a b =>
+    rw [mk_mem_edgesIn] at he
+    obtain ⟨ha, hb, hab⟩ := he
+    refine Finset.mem_image.2 ⟨s(⟨a, ha⟩, ⟨b, hb⟩), ?_, by simp [Sym2.map_mk]⟩
+    rw [mk_mem_edgesIn]
+    exact ⟨Finset.mem_univ _, Finset.mem_univ _, hab⟩
+
+/-- **JSP-000511, strong form.** A bipartite graph all of whose finite subgraphs are planar —
+for instance an arbitrary infinite planar bipartite graph — is colourable from arbitrary lists
+of at least three colours per vertex. -/
+theorem listColorable_of_finite_subgraphs_planar {V C : Type*} (G : SimpleGraph V)
+    (hfin : ∀ T : Finset V, IsPlanar (G.induce (T : Set V))) (hbip : G.Colorable 2)
+    (L : V → Finset C) (hL : ∀ v, 3 ≤ (L v).card) :
+    ∃ c : V → C, (∀ v, c v ∈ L v) ∧ ∀ ⦃u v⦄, G.Adj u v → c u ≠ c v := by
+  classical
+  refine exists_listColoring_of_sparse G hbip (fun T => ?_) L hL
+  have hbipT : (G.induce (T : Set V)).Colorable 2 :=
+    hbip.of_hom (SimpleGraph.Embedding.induce (T : Set V)).toHom
+  have h := (hfin T).edgesIn_card_le hbipT Finset.univ
+  have hcard : (Finset.univ : Finset (T : Set V)).card = T.card := by
+    rw [Finset.card_univ]
+    exact Fintype.card_coe T
+  rw [hcard] at h
+  exact (edgesIn_card_le_induce G T).trans h
+
 end Jsp511
