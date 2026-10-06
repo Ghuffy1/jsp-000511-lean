@@ -1,0 +1,15 @@
+{
+  "challenge_module": "Challenge",
+  "solution_module": "Solution",
+  "theorem_names": [
+    "Jsp511.planar_bipartite_listColorable",
+    "Jsp511.IsPlanar.isChoosable_three",
+    "Jsp511.listColorable_of_finite_subgraphs_planar"
+  ],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ],
+  "enable_nanoda": false
+}

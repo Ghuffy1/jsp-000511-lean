@@ -13,3 +13,12 @@ rev = "05a43d29cde026618777db3d4e4316204ccca237"
 
 [[lean_lib]]
 name = "Jsp511"
+
+# Trusted challenge and solution modules for leanprover/comparator. Not default targets.
+[[lean_lib]]
+name = "Challenge"
+srcDir = "Comparator"
+
+[[lean_lib]]
+name = "Solution"
+srcDir = "Comparator"

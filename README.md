@@ -92,6 +92,19 @@ import Jsp511
 -- 'Jsp511.listColorable_of_finite_subgraphs_planar' depends on axioms: [propext, Classical.choice, Quot.sound]
 ```
 
+## Comparator check
+
+`Comparator/` configures [`leanprover/comparator`](https://github.com/leanprover/comparator) for
+the three headline theorems: `Challenge.lean` states them using only `Jsp511.Defs`, and
+`Solution.lean` imports the proofs. See `Comparator/README.md`.
+
+## Authors
+
+Lean formalization: **Grant Huffman** (GitHub [@Ghuffy1](https://github.com/Ghuffy1)), written
+with AI assistance from Claude (Anthropic), as recorded in the commit trailers. The proof files
+are unchanged since commit `0e8f2fe9f22c678c57c1bf7a8bf860607f50d9d9`, the first public push
+(2026-10-06 UTC).
+
 ## License
 
 Apache License 2.0 (see `LICENSE`).
